@@ -1,0 +1,297 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e7]: SHIMODA / RUN CLUB / EST. 2024
+        - navigation [ref=e8]:
+          - generic [ref=e9]:
+            - button "play/pause" [ref=e10] [cursor=pointer]:
+              - img [ref=e11]
+            - generic [ref=e20]: MUTED
+            - button "unmute" [ref=e21] [cursor=pointer]:
+              - img [ref=e22]
+          - link "UPCOMING" [ref=e26] [cursor=pointer]:
+            - /url: "#upcoming"
+          - link "PAST" [ref=e27] [cursor=pointer]:
+            - /url: "#past"
+          - button "NEW RUN ↗" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]: NEW RUN
+            - generic [ref=e30]: ↗
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - heading "SHIMODA RUNNING CLUB." [level=1] [ref=e33]:
+            - generic [ref=e35]: SHIMODA
+            - generic [ref=e37]: RUNNING
+            - generic [ref=e39]: CLUB.
+          - generic [ref=e40]:
+            - generic [ref=e41]: Welcome to the dorm's running club. Lace up, show up, run together — no login, just a shared board.
+            - generic [ref=e42]:
+              - generic [ref=e43]:
+                - generic [ref=e44]: NEXT RACE
+                - generic [ref=e45]: MAY 31
+              - generic [ref=e46]:
+                - generic [ref=e47]: RUNNERS
+                - generic [ref=e48]: "24"
+              - generic [ref=e49]:
+                - generic [ref=e50]: KM THIS WEEK
+                - generic [ref=e51]: "312"
+        - generic [ref=e52]:
+          - img [ref=e55]
+          - generic [ref=e74]:
+            - generic [ref=e75]: HALF MARATHON STARTS IN
+            - generic [ref=e76]:
+              - generic [ref=e77]: "35"
+              - text: D
+              - generic [ref=e78]: "08"
+              - text: H
+              - generic [ref=e79]: "30"
+              - text: M
+              - generic [ref=e80]: "22"
+              - text: S
+      - generic [ref=e82]:
+        - generic [ref=e83]: RUN TOGETHER
+        - generic [ref=e84]: ★
+        - generic [ref=e85]: NO LOGIN
+        - generic [ref=e86]: ★
+        - generic [ref=e87]: JUST RUN
+        - generic [ref=e88]: ★
+        - generic [ref=e89]: MAY 31 HALF
+        - generic [ref=e90]: ★
+        - generic [ref=e91]: SHOW UP
+        - generic [ref=e92]: ★
+        - generic [ref=e93]: EASY PACE
+        - generic [ref=e94]: ★
+        - generic [ref=e95]: RUN TOGETHER
+        - generic [ref=e96]: ★
+        - generic [ref=e97]: NO LOGIN
+        - generic [ref=e98]: ★
+        - generic [ref=e99]: JUST RUN
+        - generic [ref=e100]: ★
+        - generic [ref=e101]: MAY 31 HALF
+        - generic [ref=e102]: ★
+        - generic [ref=e103]: SHOW UP
+        - generic [ref=e104]: ★
+        - generic [ref=e105]: EASY PACE
+        - generic [ref=e106]: ★
+        - generic [ref=e107]: RUN TOGETHER
+        - generic [ref=e108]: ★
+        - generic [ref=e109]: NO LOGIN
+        - generic [ref=e110]: ★
+        - generic [ref=e111]: JUST RUN
+        - generic [ref=e112]: ★
+        - generic [ref=e113]: MAY 31 HALF
+        - generic [ref=e114]: ★
+        - generic [ref=e115]: SHOW UP
+        - generic [ref=e116]: ★
+        - generic [ref=e117]: EASY PACE
+        - generic [ref=e118]: ★
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - generic [ref=e123]: § 01
+            - generic [ref=e124]: THIS WEEK
+          - heading "UPCOMING RUNS" [level=2] [ref=e125]
+          - generic [ref=e126]: 4 runs on the board. Show up or add one.
+        - button "+ NEW RUN" [ref=e127] [cursor=pointer]
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - generic [ref=e130]: RUN № 001
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - generic [ref=e133]: SUN
+              - generic [ref=e134]: "26"
+              - generic [ref=e135]: APR
+            - generic [ref=e136]:
+              - generic [ref=e137]: 06:30 · IN 8H 0M
+              - generic [ref=e138]: 8.4 KM · 5:30/KM
+              - generic [ref=e139]: 📍 Shimoda lobby — bench by the vending machines
+          - generic [ref=e140]: Easy chatty run along the canal. Coffee after at Blue Bottle.
+          - generic [ref=e142]:
+            - generic [ref=e143]: PARTICIPANTS · 3
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - text: Aiko
+                - button "×" [ref=e146] [cursor=pointer]
+              - generic [ref=e147]:
+                - text: Marco
+                - button "×" [ref=e148] [cursor=pointer]
+              - generic [ref=e149]:
+                - text: Priya
+                - button "×" [ref=e150] [cursor=pointer]
+          - generic [ref=e151]:
+            - button "JOIN RUN →" [ref=e152] [cursor=pointer]:
+              - text: JOIN RUN
+              - generic [ref=e153]: →
+            - button "COMPLETE" [ref=e154] [cursor=pointer]
+            - link "STRAVA ROUTE ↗" [ref=e155] [cursor=pointer]:
+              - /url: https://strava.com/routes/1
+          - generic [ref=e156]: CREATED BY AIKO
+        - generic [ref=e157]:
+          - generic [ref=e158]: RUN № 002
+          - generic [ref=e159]:
+            - generic [ref=e160]:
+              - generic [ref=e161]: MON
+              - generic [ref=e162]: "27"
+              - generic [ref=e163]: APR
+            - generic [ref=e164]:
+              - generic [ref=e165]: 19:15 · IN 1D 20H
+              - generic [ref=e166]: 12 KM · 4:50/KM
+              - generic [ref=e167]: 📍 East gate, under the red torii
+          - generic [ref=e168]: Tempo session — 3×2km with 400m recovery. Bring water.
+          - generic [ref=e170]:
+            - generic [ref=e171]: PARTICIPANTS · 2
+            - generic [ref=e172]:
+              - generic [ref=e173]:
+                - text: Dmitri
+                - button "×" [ref=e174] [cursor=pointer]
+              - generic [ref=e175]:
+                - text: Hanae
+                - button "×" [ref=e176] [cursor=pointer]
+          - generic [ref=e177]:
+            - button "JOIN RUN →" [ref=e178] [cursor=pointer]:
+              - text: JOIN RUN
+              - generic [ref=e179]: →
+            - button "COMPLETE" [ref=e180] [cursor=pointer]
+            - link "STRAVA ROUTE ↗" [ref=e181] [cursor=pointer]:
+              - /url: https://strava.com/routes/2
+          - generic [ref=e182]: CREATED BY DMITRI
+        - generic [ref=e183]:
+          - generic [ref=e184]: RUN № 003
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - generic [ref=e187]: TUE
+              - generic [ref=e188]: "28"
+              - generic [ref=e189]: APR
+            - generic [ref=e190]:
+              - generic [ref=e191]: 17:00 · IN 2D 18H
+              - generic [ref=e192]: 5 KM · 4:20/KM
+              - generic [ref=e193]: 📍 Track oval — gate 3
+          - generic [ref=e194]: Speed day. 10×400m. New shoes welcome.
+          - generic [ref=e196]:
+            - generic [ref=e197]: PARTICIPANTS · 1
+            - generic [ref=e199]:
+              - text: Leni
+              - button "×" [ref=e200] [cursor=pointer]
+          - generic [ref=e201]:
+            - button "JOIN RUN →" [ref=e202] [cursor=pointer]:
+              - text: JOIN RUN
+              - generic [ref=e203]: →
+            - button "COMPLETE" [ref=e204] [cursor=pointer]
+          - generic [ref=e205]: CREATED BY LENI
+        - generic [ref=e206]:
+          - generic [ref=e207]: RUN № 004
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - generic [ref=e210]: SAT
+              - generic [ref=e211]: "02"
+              - generic [ref=e212]: MAY
+            - generic [ref=e213]:
+              - generic [ref=e214]: 05:45 · IN 6D 7H
+              - generic [ref=e215]: 21.1 KM · 5:10/KM
+              - generic [ref=e216]: 📍 Rooftop stairwell, 8F
+          - generic [ref=e217]: Half-marathon dress rehearsal for May 31. Sunrise start.
+          - generic [ref=e219]:
+            - generic [ref=e220]: PARTICIPANTS · 5
+            - generic [ref=e221]:
+              - generic [ref=e222]:
+                - text: Sora
+                - button "×" [ref=e223] [cursor=pointer]
+              - generic [ref=e224]:
+                - text: Leni
+                - button "×" [ref=e225] [cursor=pointer]
+              - generic [ref=e226]:
+                - text: Yuki
+                - button "×" [ref=e227] [cursor=pointer]
+              - generic [ref=e228]:
+                - text: Tobi
+                - button "×" [ref=e229] [cursor=pointer]
+              - generic [ref=e230]:
+                - text: Marco
+                - button "×" [ref=e231] [cursor=pointer]
+          - generic [ref=e232]:
+            - button "JOIN RUN →" [ref=e233] [cursor=pointer]:
+              - text: JOIN RUN
+              - generic [ref=e234]: →
+            - button "COMPLETE" [ref=e235] [cursor=pointer]
+          - generic [ref=e236]: CREATED BY SORA
+    - generic [ref=e237]:
+      - generic [ref=e239]:
+        - generic [ref=e240]:
+          - generic [ref=e241]: § 02
+          - generic [ref=e242]: IN THE BOOKS
+        - heading "PAST RUNS" [level=2] [ref=e243]
+        - generic [ref=e244]: The archive. No deletes.
+      - generic [ref=e245]:
+        - generic [ref=e246]:
+          - generic [ref=e247]:
+            - generic [ref=e250]: "[ PHOTO ]"
+            - button "UPLOAD PHOTO ↑" [ref=e251] [cursor=pointer]
+            - generic [ref=e252]: ✓ COMPLETED · APR 18
+          - generic [ref=e253]:
+            - generic [ref=e254]: 15.2 KM
+            - generic [ref=e255]: 5:05/KM · 4 RUNNERS
+            - generic [ref=e256]: Long run along the river loop. Rain held off.
+            - generic [ref=e257]:
+              - generic [ref=e258]: Hanae
+              - generic [ref=e259]: Dmitri
+              - generic [ref=e260]: Aiko
+              - generic [ref=e261]: Priya
+        - generic [ref=e262]:
+          - generic [ref=e263]:
+            - generic [ref=e266]: "[ PHOTO ]"
+            - button "UPLOAD PHOTO ↑" [ref=e267] [cursor=pointer]
+            - generic [ref=e268]: ✓ COMPLETED · APR 12
+          - generic [ref=e269]:
+            - generic [ref=e270]: 10 KM
+            - generic [ref=e271]: 5:40/KM · 3 RUNNERS
+            - generic [ref=e272]: Recovery pace. Great vibes. Stopped for taiyaki.
+            - generic [ref=e273]:
+              - generic [ref=e274]: Yuki
+              - generic [ref=e275]: Sora
+              - generic [ref=e276]: Leni
+        - generic [ref=e277]:
+          - generic [ref=e278]:
+            - generic [ref=e281]: "[ PHOTO ]"
+            - button "UPLOAD PHOTO ↑" [ref=e282] [cursor=pointer]
+            - generic [ref=e283]: ✓ COMPLETED · APR 05
+          - generic [ref=e284]:
+            - generic [ref=e285]: 7.7 KM
+            - generic [ref=e286]: 5:20/KM · 5 RUNNERS
+            - generic [ref=e287]: Sunset hill repeats. Brutal but beautiful.
+            - generic [ref=e288]:
+              - generic [ref=e289]: Tobi
+              - generic [ref=e290]: Marco
+              - generic [ref=e291]: Aiko
+              - generic [ref=e292]: Dmitri
+              - generic [ref=e293]: Sora
+    - contentinfo [ref=e294]:
+      - generic [ref=e295]:
+        - text: JUST
+        - text: RUN.
+      - generic [ref=e296]:
+        - generic [ref=e297]: SHIMODA RUNNING CLUB · EST 2024 · NO LOGIN · NO BS
+        - generic [ref=e298]: MAY 31 · HALF MARATHON
+    - generic [ref=e299]:
+      - generic [ref=e300]:
+        - generic [ref=e301]: TWEAKS
+        - button "✕" [ref=e302] [cursor=pointer]
+      - generic [ref=e303]:
+        - generic [ref=e304]: Accent
+        - generic [ref=e305]:
+          - generic [ref=e306]: Style
+          - generic [ref=e307]:
+            - button "Rainbow" [ref=e308] [cursor=pointer]
+            - button "Monochrome" [ref=e309] [cursor=pointer]
+        - generic [ref=e310]: Atmosphere
+        - generic [ref=e311]:
+          - generic [ref=e312]: Grain overlay
+          - button [pressed] [ref=e313] [cursor=pointer]
+        - generic [ref=e314]: Card style
+        - generic [ref=e315]:
+          - generic [ref=e316]: Shadow
+          - generic [ref=e317]:
+            - button "Solid" [ref=e318] [cursor=pointer]
+            - button "Soft" [ref=e319] [cursor=pointer]
+            - button "Flat" [ref=e320] [cursor=pointer]
+  - alert [ref=e321]
