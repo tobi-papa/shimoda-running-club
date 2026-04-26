@@ -1,11 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function MusicPlayer() {
-  const [playing, setPlaying] = useState(true);
-  const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
   const [bars, setBars] = useState([0.3, 0.6, 0.4, 0.8, 0.5]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio("/audio/ShimodaRunningClubAnthem.mp3");
+    audioRef.current.loop = true;
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    if (playing) {
+      audioRef.current.play().catch(() => {});
+    } else {
+      audioRef.current.pause();
+    }
+  }, [playing]);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.muted = muted;
+  }, [muted]);
 
   useEffect(() => {
     if (!playing || muted) return;
@@ -29,7 +51,7 @@ export function MusicPlayer() {
     >
       <button
         onClick={() => setPlaying((p) => !p)}
-        title="play/pause"
+        title={playing ? "pause" : "play"}
         style={{ display: "flex", alignItems: "center" }}
       >
         {playing ? (
