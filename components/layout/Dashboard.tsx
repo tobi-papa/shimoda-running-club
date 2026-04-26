@@ -232,7 +232,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 function Marquee() {
-  const items = ["RUN TOGETHER", "★", "NO LOGIN", "★", "JUST RUN", "★", "MAY 31 HALF", "★", "SHOW UP", "★", "EASY PACE", "★"];
+  const items = ["RUN TOGETHER", "★", "JUST RUN", "★", "MAY 31 HALF", "★", "SHOW UP", "★", "EASY PACE", "★"];
   const content = [...items, ...items, ...items];
   return (
     <div
@@ -328,7 +328,7 @@ function Hero({
           <div style={{ marginTop: 28, maxWidth: 520, display: "flex", flexDirection: "column", gap: 20 }}>
             <div style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.25 }}>
               Welcome to the dorm&apos;s <span className="rainbow">running club</span>.
-              Lace up, show up, run together — no login, just a shared board.
+              Lace up, show up, run together!
             </div>
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
               <Stat label="NEXT RACE" value="MAY 31" />
@@ -480,7 +480,7 @@ function Footer() {
         }}
       >
         <div className="mono" style={{ fontSize: 11, letterSpacing: "0.12em", opacity: 0.6 }}>
-          SHIMODA RUNNING CLUB · EST 2024 · NO LOGIN · NO BS
+          SHIMODA RUNNING CLUB · 026 · 
         </div>
         <div className="mono" style={{ fontSize: 11, letterSpacing: "0.12em", opacity: 0.6 }}>
           MAY 31 · HALF MARATHON

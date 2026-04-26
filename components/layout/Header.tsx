@@ -28,7 +28,7 @@ export function Header({ onNewRun }: HeaderProps) {
           }}
         />
         <div className="mono" style={{ fontSize: 13, letterSpacing: "0.08em", fontWeight: 700 }}>
-          SHIMODA / RUN CLUB / EST. 2024
+          SHIMODA / RUN CLUB / 2026
         </div>
       </div>
 
