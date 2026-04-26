@@ -309,10 +309,11 @@ function Hero({
   };
 
   return (
-    <section style={{ position: "relative", padding: "96px 56px 64px", minHeight: "100vh", overflow: "hidden" }}>
+    <section className="hero-section" style={{ position: "relative", padding: "96px 56px 64px", minHeight: "100vh", overflow: "hidden" }}>
       <Header onNewRun={onNewRun} />
 
       <div
+        className="hero-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1.3fr 1fr",
@@ -339,7 +340,7 @@ function Hero({
         </div>
 
         {/* right: runner + countdown */}
-        <div style={{ position: "relative", height: 540 }}>
+        <div className="runner-col" style={{ position: "relative", height: 540 }}>
           <div
             style={{
               position: "absolute",
@@ -399,7 +400,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} style={{ padding: "96px 56px", position: "relative" }}>
+    <section id={id} className="page-section" style={{ padding: "96px 56px", position: "relative" }}>
       <div
         style={{
           display: "flex",
@@ -454,6 +455,7 @@ function Section({
 function Footer() {
   return (
     <footer
+      className="site-footer"
       style={{
         background: "var(--ink)",
         color: "var(--bg)",
@@ -586,6 +588,7 @@ export function Dashboard() {
         }
       >
         <div
+          className="cards-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))",
@@ -613,6 +616,7 @@ export function Dashboard() {
         subtitle="The archive. No deletes."
       >
         <div
+          className="cards-grid-past"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",

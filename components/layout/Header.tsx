@@ -33,10 +33,10 @@ export function Header({ onNewRun }: HeaderProps) {
       </div>
 
       <nav style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <MusicPlayer />
+        <span className="header-music"><MusicPlayer /></span>
         <a
           href="#upcoming"
-          className="mono"
+          className="mono header-navlink"
           style={{
             padding: "10px 14px",
             fontSize: 12,
@@ -51,7 +51,7 @@ export function Header({ onNewRun }: HeaderProps) {
         </a>
         <a
           href="#past"
-          className="mono"
+          className="mono header-navlink"
           style={{
             padding: "10px 14px",
             fontSize: 12,
