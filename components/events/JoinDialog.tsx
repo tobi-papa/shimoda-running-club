@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Event } from "@/types";
-import { fmtDate } from "@/lib/seed";
+import { fmtDate } from "@/lib/utils";
 
 const inputStyle: React.CSSProperties = {
   width: "100%",

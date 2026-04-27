@@ -1,17 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { Event } from "@/types";
-import { fmtDate } from "@/lib/seed";
+import { fmtDate } from "@/lib/utils";
 
 interface EventCardPastProps {
   event: Event;
-  onUpload: (id: string) => void;
+  onUpload: (id: string, file: File) => void;
 }
 
 export function EventCardPast({ event, onUpload }: EventCardPastProps) {
   const d = fmtDate(event.run_at);
   const [hover, setHover] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => fileInputRef.current?.click();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) onUpload(event.id, file);
+    e.target.value = "";
+  };
 
   const photoBackground = event.photo_url
     ? `url(${event.photo_url}) center/cover`
@@ -67,7 +76,7 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
               </div>
             </div>
             <button
-              onClick={() => onUpload(event.id)}
+              onClick={handleUploadClick}
               style={{
                 position: "absolute",
                 bottom: 12,
@@ -86,6 +95,13 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
             >
               UPLOAD PHOTO ↑
             </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
           </>
         )}
         <div
@@ -120,9 +136,9 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
           </div>
         )}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 12 }}>
-          {event.participants.map((p, i) => (
+          {event.participants.map((p) => (
             <span
-              key={i}
+              key={p.id}
               style={{
                 fontSize: 11,
                 padding: "3px 8px",
@@ -131,7 +147,7 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
                 fontWeight: 600,
               }}
             >
-              {p}
+              {p.name}
             </span>
           ))}
         </div>

@@ -51,8 +51,8 @@ function ParticipantChip({ name, onRemove }: ParticipantChipProps) {
 }
 
 interface ParticipantListProps {
-  participants: string[];
-  onRemove: (index: number) => void;
+  participants: { id: string; name: string }[];
+  onRemove: (participantId: string) => void;
 }
 
 export function ParticipantList({ participants, onRemove }: ParticipantListProps) {
@@ -70,8 +70,8 @@ export function ParticipantList({ participants, onRemove }: ParticipantListProps
         PARTICIPANTS · {participants.length}
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-        {participants.map((p, i) => (
-          <ParticipantChip key={i} name={p} onRemove={() => onRemove(i)} />
+        {participants.map((p) => (
+          <ParticipantChip key={p.id} name={p.name} onRemove={() => onRemove(p.id)} />
         ))}
       </div>
     </div>

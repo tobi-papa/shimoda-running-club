@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Event } from "@/types";
+import type { CreateEventForm } from "@/types";
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
@@ -44,7 +44,7 @@ function Field({
 interface CreateEventModalProps {
   open: boolean;
   onClose: () => void;
-  onCreate: (event: Event) => void;
+  onCreate: (form: CreateEventForm) => void;
 }
 
 export function CreateEventModal({ open, onClose, onCreate }: CreateEventModalProps) {
@@ -68,7 +68,6 @@ export function CreateEventModal({ open, onClose, onCreate }: CreateEventModalPr
     e.preventDefault();
     if (!canSubmit) return;
     onCreate({
-      id: "u" + Date.now(),
       creator: form.creator,
       run_at: form.run_at,
       meeting_point: form.meeting_point,
@@ -76,8 +75,6 @@ export function CreateEventModal({ open, onClose, onCreate }: CreateEventModalPr
       pace: form.pace,
       strava_url: form.strava_url || undefined,
       notes: form.notes || undefined,
-      participants: [form.creator],
-      status: "upcoming",
     });
     setForm({ creator: "", run_at: "", meeting_point: "", distance_km: "", pace: "", strava_url: "", notes: "" });
     onClose();

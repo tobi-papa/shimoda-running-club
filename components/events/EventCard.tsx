@@ -3,14 +3,14 @@
 import { useState } from "react";
 import type { Event } from "@/types";
 import { ParticipantList } from "./ParticipantList";
-import { fmtDate, timeUntil } from "@/lib/seed";
+import { fmtDate, timeUntil } from "@/lib/utils";
 
 interface EventCardProps {
   event: Event;
   index: number;
   onJoin: (event: Event) => void;
   onComplete: (id: string) => void;
-  onRemove: (id: string, index: number) => void;
+  onRemove: (eventId: string, participantId: string) => void;
 }
 
 export function EventCard({ event, index, onJoin, onComplete, onRemove }: EventCardProps) {
@@ -125,7 +125,7 @@ export function EventCard({ event, index, onJoin, onComplete, onRemove }: EventC
       <div style={{ marginBottom: 20 }}>
         <ParticipantList
           participants={event.participants}
-          onRemove={(i) => onRemove(event.id, i)}
+          onRemove={(participantId) => onRemove(event.id, participantId)}
         />
       </div>
 

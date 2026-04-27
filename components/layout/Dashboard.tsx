@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { Event } from "@/types";
-import { SEED_UPCOMING, SEED_PAST } from "@/lib/seed";
+import type { Event, CreateEventForm } from "@/types";
+import { useRealtimeEvents } from "@/lib/realtime";
 import { Header } from "./Header";
 import { EventCard } from "@/components/events/EventCard";
 import { EventCardPast } from "@/components/events/EventCardPast";
@@ -495,10 +495,23 @@ function Footer() {
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 
 export function Dashboard() {
-  const [upcoming, setUpcoming] = useState<Event[]>(SEED_UPCOMING);
-  const [past, setPast] = useState<Event[]>(SEED_PAST);
+  const [events, setEvents] = useState<Event[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [joinEvent, setJoinEvent] = useState<Event | null>(null);
+
+  const refresh = useCallback(async () => {
+    const res = await fetch("/api/events");
+    const data = await res.json();
+    setEvents(data);
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+  useRealtimeEvents(refresh);
+
+  const upcoming = events
+    .filter((e) => e.status === "upcoming")
+    .sort((a, b) => new Date(a.run_at).getTime() - new Date(b.run_at).getTime());
+  const past = events.filter((e) => e.status === "completed");
 
   const tweaks = useTweaks({ accent: "rainbow", grain: true, cardStyle: "solid-shadow" });
 
@@ -517,47 +530,41 @@ export function Dashboard() {
     return () => io.disconnect();
   }, [upcoming, past]);
 
-  const addEvent = useCallback((ev: Event) => {
-    setUpcoming((prev) =>
-      [...prev, ev].sort((a, b) => new Date(a.run_at).getTime() - new Date(b.run_at).getTime())
-    );
+  const addEvent = useCallback(async (form: CreateEventForm) => {
+    await fetch("/api/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
   }, []);
 
-  const joinRun = useCallback((id: string, names: string[]) => {
-    setUpcoming((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, participants: [...e.participants, ...names] } : e))
-    );
-  }, []);
-
-  const removePart = useCallback((id: string, idx: number) => {
-    setUpcoming((prev) =>
-      prev.map((e) =>
-        e.id === id ? { ...e, participants: e.participants.filter((_, i) => i !== idx) } : e
+  const joinRun = useCallback(async (id: string, names: string[]) => {
+    await Promise.all(
+      names.map((name) =>
+        fetch(`/api/events/${id}/participants`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        })
       )
     );
   }, []);
 
-  const completeRun = useCallback((id: string) => {
-    setUpcoming((prev) => {
-      const ev = prev.find((e) => e.id === id);
-      if (!ev) return prev;
-      setPast((p) => [
-        { ...ev, id: "p" + Date.now(), status: "completed" as const, photo_url: null, photo_hue: Math.floor(Math.random() * 360) },
-        ...p,
-      ]);
-      return prev.filter((e) => e.id !== id);
+  const removePart = useCallback(async (eventId: string, participantId: string) => {
+    await fetch(`/api/events/${eventId}/participants/${participantId}`, {
+      method: "DELETE",
     });
   }, []);
 
-  const uploadPhoto = useCallback((id: string) => {
-    setPast((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, photo_url: `https://picsum.photos/seed/${id}/600/400` } : p))
-    );
+  const completeRun = useCallback(async (id: string) => {
+    await fetch(`/api/events/${id}/complete`, { method: "POST" });
   }, []);
 
-  const sorted = [...upcoming].sort(
-    (a, b) => new Date(a.run_at).getTime() - new Date(b.run_at).getTime()
-  );
+  const uploadPhoto = useCallback(async (id: string, file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    await fetch(`/api/events/${id}/photo`, { method: "POST", body: form });
+  }, []);
 
   const bigBtn: React.CSSProperties = {
     background: "var(--ink)",
@@ -580,7 +587,7 @@ export function Dashboard() {
         number="01"
         kicker="THIS WEEK"
         title="UPCOMING RUNS"
-        subtitle={`${sorted.length} runs on the board. Show up or add one.`}
+        subtitle={`${upcoming.length} runs on the board. Show up or add one.`}
         action={
           <button onClick={() => setCreateOpen(true)} style={bigBtn}>
             + NEW RUN
@@ -595,7 +602,7 @@ export function Dashboard() {
             gap: 20,
           }}
         >
-          {sorted.map((ev, i) => (
+          {upcoming.map((ev, i) => (
             <EventCard
               key={ev.id}
               event={ev}
