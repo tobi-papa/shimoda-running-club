@@ -9,6 +9,7 @@ interface HeaderProps {
 export function Header({ onNewRun }: HeaderProps) {
   return (
     <div
+      className="header-outer"
       style={{
         display: "flex",
         justifyContent: "space-between",
@@ -32,7 +33,7 @@ export function Header({ onNewRun }: HeaderProps) {
         </div>
       </div>
 
-      <nav style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      <nav className="header-nav" style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <span className="header-music"><MusicPlayer /></span>
         <a
           href="#upcoming"
@@ -66,6 +67,7 @@ export function Header({ onNewRun }: HeaderProps) {
         </a>
         <button
           onClick={onNewRun}
+          className="header-new-run"
           style={{
             display: "inline-flex",
             alignItems: "center",

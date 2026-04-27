@@ -90,6 +90,7 @@ input, textarea { font-family: inherit; }
   .cards-grid { grid-template-columns: 1fr !important; }
   .cards-grid-past { grid-template-columns: 1fr !important; }
   .site-footer { padding: 48px 20px 24px !important; }
-  .header-music { display: none !important; }
-  .header-navlink { display: none !important; }
+  .header-outer { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+  .header-nav { flex-wrap: wrap; justify-content: center; gap: 6px !important; }
+  .header-new-run { display: none !important; }
 }

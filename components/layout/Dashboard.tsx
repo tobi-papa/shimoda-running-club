@@ -174,7 +174,7 @@ function Runner({
 
 function HeroWord({ scroll, pointer }: { scroll: number; pointer: { x: number; y: number } }) {
   const px = (pointer.x - 0.5) * 10;
-  const lines = ["SHIMODA", "RUNNING", "CLUB."];
+  const lines = ["SHIMODA", "RUNNING", "CLUB"];
   return (
     <h1
       className="display"
