@@ -102,7 +102,7 @@ interface TweaksPanelProps {
 }
 
 export function TweaksPanel({ children }: TweaksPanelProps) {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const dragging = useRef(false);
   const startPos = useRef({ mx: 0, my: 0, px: 0, py: 0 });
@@ -130,7 +130,35 @@ export function TweaksPanel({ children }: TweaksPanelProps) {
     e.preventDefault();
   };
 
-  if (!visible) return null;
+  if (!visible) return (
+    <>
+      <style>{PANEL_STYLES}</style>
+      <button
+        onClick={() => setVisible(true)}
+        className="mono"
+        style={{
+          position: "fixed",
+          right: 16,
+          bottom: 16,
+          zIndex: 2147483646,
+          background: "rgba(250,249,247,.85)",
+          color: "#29261b",
+          border: ".5px solid rgba(255,255,255,.6)",
+          borderRadius: 999,
+          padding: "8px 16px",
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          backdropFilter: "blur(24px) saturate(160%)",
+          WebkitBackdropFilter: "blur(24px) saturate(160%)",
+          boxShadow: "0 4px 16px rgba(0,0,0,.14)",
+          cursor: "pointer",
+        }}
+      >
+        TWEAKS
+      </button>
+    </>
+  );
 
   return (
     <>
