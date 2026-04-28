@@ -538,7 +538,8 @@ export function Dashboard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const joinRun = useCallback(async (id: string, names: string[]) => {
     await Promise.all(
@@ -550,23 +551,27 @@ export function Dashboard() {
         })
       )
     );
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const removePart = useCallback(async (eventId: string, participantId: string) => {
     await fetch(`/api/events/${eventId}/participants/${participantId}`, {
       method: "DELETE",
     });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const completeRun = useCallback(async (id: string) => {
     await fetch(`/api/events/${id}/complete`, { method: "POST" });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const uploadPhoto = useCallback(async (id: string, file: File) => {
     const form = new FormData();
     form.append("file", file);
     await fetch(`/api/events/${id}/photo`, { method: "POST", body: form });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const editRun = useCallback(async (id: string, patch: {
     run_at: string;
