@@ -581,11 +581,13 @@ export function Dashboard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(patch),
     });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const deleteRun = useCallback(async (id: string) => {
     await fetch(`/api/events/${id}`, { method: "DELETE" });
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const bigBtn: React.CSSProperties = {
     background: "var(--ink)",
@@ -643,7 +645,7 @@ export function Dashboard() {
         number="02"
         kicker="IN THE BOOKS"
         title="PAST RUNS"
-        subtitle="The archive. No deletes."
+        subtitle="The archive. Every run, remembered."
       >
         <div
           className="cards-grid-past"
