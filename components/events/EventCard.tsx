@@ -11,12 +11,15 @@ interface EventCardProps {
   onJoin: (event: Event) => void;
   onComplete: (id: string) => void;
   onRemove: (eventId: string, participantId: string) => void;
+  onEdit: (event: Event) => void;
+  onDelete: (id: string) => void;
 }
 
-export function EventCard({ event, index, onJoin, onComplete, onRemove }: EventCardProps) {
+export function EventCard({ event, index, onJoin, onComplete, onRemove, onEdit, onDelete }: EventCardProps) {
   const d = fmtDate(event.run_at);
   const [hover, setHover] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [confirming, setConfirming] = useState(false);
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -66,8 +69,7 @@ export function EventCard({ event, index, onJoin, onComplete, onRemove }: EventC
           left: 0,
           right: 0,
           height: 4,
-          background:
-            "linear-gradient(90deg,#ff2d55,#ffb300,#00c2a8,#3d5afe,#8e24ff)",
+          background: "linear-gradient(90deg,#ff2d55,#ffb300,#00c2a8,#3d5afe,#8e24ff)",
           transform: hover ? "scaleX(1)" : "scaleX(0)",
           transformOrigin: "left",
           transition: "transform .5s cubic-bezier(.2,.7,.2,1)",
@@ -130,55 +132,115 @@ export function EventCard({ event, index, onJoin, onComplete, onRemove }: EventC
       </div>
 
       {/* actions */}
-      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-        <button
-          onClick={() => onJoin(event)}
-          style={{
-            background: "var(--ink)",
-            color: "var(--bg)",
-            padding: "12px 20px",
-            borderRadius: 999,
-            fontWeight: 800,
-            letterSpacing: "0.08em",
-            fontSize: 12,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          JOIN RUN <span>→</span>
-        </button>
-        <button
-          onClick={() => onComplete(event.id)}
-          style={{
-            border: "1.5px solid var(--ink)",
-            padding: "10px 18px",
-            borderRadius: 999,
-            fontWeight: 700,
-            letterSpacing: "0.06em",
-            fontSize: 12,
-          }}
-        >
-          COMPLETE
-        </button>
-        {event.strava_url && (
-          <a
-            href={event.strava_url}
-            target="_blank"
-            rel="noreferrer"
+      {confirming ? (
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <span className="mono" style={{ fontSize: 11, letterSpacing: "0.08em", color: "var(--muted)" }}>
+            DELETE THIS RUN?
+          </span>
+          <button
+            onClick={() => { onDelete(event.id); setConfirming(false); }}
+            style={{
+              background: "var(--accent-a)",
+              color: "#fff",
+              padding: "10px 18px",
+              borderRadius: 999,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              fontSize: 12,
+            }}
+          >
+            CONFIRM
+          </button>
+          <button
+            onClick={() => setConfirming(false)}
+            style={{
+              border: "1.5px solid var(--ink)",
+              padding: "10px 18px",
+              borderRadius: 999,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontSize: 12,
+            }}
+          >
+            CANCEL
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <button
+            onClick={() => onJoin(event)}
+            style={{
+              background: "var(--ink)",
+              color: "var(--bg)",
+              padding: "12px 20px",
+              borderRadius: 999,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              fontSize: 12,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            JOIN RUN <span>→</span>
+          </button>
+          <button
+            onClick={() => onComplete(event.id)}
+            style={{
+              border: "1.5px solid var(--ink)",
+              padding: "10px 18px",
+              borderRadius: 999,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontSize: 12,
+            }}
+          >
+            COMPLETE
+          </button>
+          <button
+            onClick={() => onEdit(event)}
+            style={{
+              border: "1.5px solid var(--ink)",
+              padding: "10px 18px",
+              borderRadius: 999,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontSize: 12,
+            }}
+          >
+            EDIT
+          </button>
+          <button
+            onClick={() => setConfirming(true)}
             className="mono"
             style={{
               fontSize: 11,
               letterSpacing: "0.1em",
-              textDecoration: "underline",
               marginLeft: "auto",
-              color: "var(--ink)",
+              color: "var(--muted)",
+              textDecoration: "underline",
             }}
           >
-            STRAVA ROUTE ↗
-          </a>
-        )}
-      </div>
+            DELETE
+          </button>
+          {event.strava_url && (
+            <a
+              href={event.strava_url}
+              target="_blank"
+              rel="noreferrer"
+              className="mono"
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                textDecoration: "underline",
+                color: "var(--ink)",
+              }}
+            >
+              STRAVA ROUTE ↗
+            </a>
+          )}
+        </div>
+      )}
 
       <div
         className="mono"
