@@ -8,6 +8,7 @@ import { EventCard } from "@/components/events/EventCard";
 import { EventCardPast } from "@/components/events/EventCardPast";
 import { CreateEventModal } from "@/components/events/CreateEventModal";
 import { JoinDialog } from "@/components/events/JoinDialog";
+import { EditEventModal } from "@/components/events/EditEventModal";
 import {
   TweaksPanel,
   TweakSection,
@@ -498,6 +499,7 @@ export function Dashboard() {
   const [events, setEvents] = useState<Event[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [joinEvent, setJoinEvent] = useState<Event | null>(null);
+  const [editEvent, setEditEvent] = useState<Event | null>(null);
 
   const refresh = useCallback(async () => {
     const res = await fetch("/api/events");
@@ -566,6 +568,25 @@ export function Dashboard() {
     await fetch(`/api/events/${id}/photo`, { method: "POST", body: form });
   }, []);
 
+  const editRun = useCallback(async (id: string, patch: {
+    run_at: string;
+    meeting_point: string;
+    distance_km: number;
+    pace: string;
+    strava_url?: string;
+    notes?: string;
+  }) => {
+    await fetch(`/api/events/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(patch),
+    });
+  }, []);
+
+  const deleteRun = useCallback(async (id: string) => {
+    await fetch(`/api/events/${id}`, { method: "DELETE" });
+  }, []);
+
   const bigBtn: React.CSSProperties = {
     background: "var(--ink)",
     color: "var(--bg)",
@@ -610,6 +631,8 @@ export function Dashboard() {
               onJoin={setJoinEvent}
               onComplete={completeRun}
               onRemove={removePart}
+              onEdit={setEditEvent}
+              onDelete={deleteRun}
             />
           ))}
         </div>
@@ -631,7 +654,7 @@ export function Dashboard() {
           }}
         >
           {past.map((ev) => (
-            <EventCardPast key={ev.id} event={ev} onUpload={uploadPhoto} />
+            <EventCardPast key={ev.id} event={ev} onUpload={uploadPhoto} onDelete={deleteRun} />
           ))}
         </div>
       </Section>
@@ -640,6 +663,7 @@ export function Dashboard() {
 
       <CreateEventModal open={createOpen} onClose={() => setCreateOpen(false)} onCreate={addEvent} />
       <JoinDialog event={joinEvent} onClose={() => setJoinEvent(null)} onJoin={joinRun} />
+      <EditEventModal event={editEvent} onClose={() => setEditEvent(null)} onSave={editRun} />
 
       <TweaksPanel tweaks={tweaks}>
         <TweakSection title="Accent" />
