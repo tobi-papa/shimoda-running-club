@@ -7,11 +7,13 @@ import { fmtDate } from "@/lib/utils";
 interface EventCardPastProps {
   event: Event;
   onUpload: (id: string, file: File) => void;
+  onDelete: (id: string) => void;
 }
 
-export function EventCardPast({ event, onUpload }: EventCardPastProps) {
+export function EventCardPast({ event, onUpload, onDelete }: EventCardPastProps) {
   const d = fmtDate(event.run_at);
   const [hover, setHover] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => fileInputRef.current?.click();
@@ -75,35 +77,38 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
                 [ PHOTO ]
               </div>
             </div>
-            <button
-              onClick={handleUploadClick}
-              style={{
-                position: "absolute",
-                bottom: 12,
-                right: 12,
-                background: "#fff",
-                color: "var(--ink)",
-                padding: "8px 14px",
-                borderRadius: 999,
-                fontSize: 11,
-                fontWeight: 800,
-                letterSpacing: "0.08em",
-                opacity: hover ? 1 : 0,
-                transform: hover ? "translateY(0)" : "translateY(8px)",
-                transition: "all .3s",
-              }}
-            >
-              UPLOAD PHOTO ↑
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
           </>
         )}
+
+        {/* upload button — always available on hover */}
+        <button
+          onClick={handleUploadClick}
+          style={{
+            position: "absolute",
+            bottom: 12,
+            right: 12,
+            background: "#fff",
+            color: "var(--ink)",
+            padding: "8px 14px",
+            borderRadius: 999,
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: "0.08em",
+            opacity: hover ? 1 : 0,
+            transform: hover ? "translateY(0)" : "translateY(8px)",
+            transition: "all .3s",
+          }}
+        >
+          {event.photo_url ? "CHANGE PHOTO ↑" : "UPLOAD PHOTO ↑"}
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+
         <div
           style={{
             position: "absolute",
@@ -150,6 +155,77 @@ export function EventCardPast({ event, onUpload }: EventCardPastProps) {
               {p.name}
             </span>
           ))}
+        </div>
+
+        {/* strava link */}
+        {event.strava_url && (
+          <a
+            href={event.strava_url}
+            target="_blank"
+            rel="noreferrer"
+            className="mono"
+            style={{
+              display: "inline-block",
+              marginTop: 12,
+              fontSize: 11,
+              letterSpacing: "0.1em",
+              textDecoration: "underline",
+              color: "var(--ink)",
+            }}
+          >
+            STRAVA ROUTE ↗
+          </a>
+        )}
+
+        {/* delete */}
+        <div style={{ marginTop: 16 }}>
+          {confirming ? (
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+              <span className="mono" style={{ fontSize: 11, letterSpacing: "0.08em", color: "var(--muted)" }}>
+                DELETE THIS RUN?
+              </span>
+              <button
+                onClick={() => { onDelete(event.id); setConfirming(false); }}
+                style={{
+                  background: "var(--accent-a)",
+                  color: "#fff",
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                  fontWeight: 800,
+                  letterSpacing: "0.08em",
+                  fontSize: 11,
+                }}
+              >
+                CONFIRM
+              </button>
+              <button
+                onClick={() => setConfirming(false)}
+                style={{
+                  border: "1.5px solid var(--ink)",
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                  fontWeight: 700,
+                  letterSpacing: "0.06em",
+                  fontSize: 11,
+                }}
+              >
+                CANCEL
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setConfirming(true)}
+              className="mono"
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                color: "var(--muted)",
+                textDecoration: "underline",
+              }}
+            >
+              DELETE RUN
+            </button>
+          )}
         </div>
       </div>
     </div>
