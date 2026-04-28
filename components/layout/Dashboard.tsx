@@ -178,7 +178,7 @@ function HeroWord({ scroll, pointer }: { scroll: number; pointer: { x: number; y
   const lines = ["SHIMODA", "RUNNING", "CLUB"];
   return (
     <h1
-      className="display"
+      className="display hero-word"
       style={{ fontSize: "clamp(80px, 11.5vw, 192px)", margin: 0, lineHeight: 0.85 }}
     >
       {lines.map((l, i) => (

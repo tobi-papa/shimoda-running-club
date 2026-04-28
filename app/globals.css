@@ -93,4 +93,6 @@ input, textarea { font-family: inherit; }
   .header-outer { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
   .header-nav { flex-wrap: wrap; justify-content: center; gap: 6px !important; }
   .header-new-run { display: none !important; }
+  .hero-word { font-size: clamp(52px, 14vw, 80px) !important; text-align: center !important; }
+  .header-outer .mono { font-size: 11px !important; }
 }
