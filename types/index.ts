@@ -30,3 +30,28 @@ export interface CreateEventForm {
   strava_url?: string;
   notes?: string;
 }
+
+export type RaceType = "half_marathon" | "10k" | "5k" | "marathon" | "other";
+
+export interface RaceEvent {
+  id: string;
+  name: string;
+  race_type: RaceType;
+  run_at: string;
+  location: string;
+  distance_km: number;
+  registration_url?: string;
+  notes?: string;
+  is_featured: boolean;
+  participants: { id: string; name: string }[];
+}
+
+export interface CreateRaceEventForm {
+  name: string;
+  race_type: RaceType;
+  run_at: string;
+  location: string;
+  distance_km: number;
+  registration_url?: string;
+  notes?: string;
+}

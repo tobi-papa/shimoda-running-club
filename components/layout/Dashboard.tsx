@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { Event, CreateEventForm } from "@/types";
+import type { Event, CreateEventForm, RaceEvent, CreateRaceEventForm, RaceType } from "@/types";
 import { useRealtimeEvents } from "@/lib/realtime";
 import { Header } from "./Header";
 import { EventCard } from "@/components/events/EventCard";
@@ -9,6 +9,10 @@ import { EventCardPast } from "@/components/events/EventCardPast";
 import { CreateEventModal } from "@/components/events/CreateEventModal";
 import { JoinDialog } from "@/components/events/JoinDialog";
 import { EditEventModal } from "@/components/events/EditEventModal";
+import { RaceEventCard } from "@/components/races/RaceEventCard";
+import { CreateRaceEventModal } from "@/components/races/CreateRaceEventModal";
+import { EditRaceEventModal } from "@/components/races/EditRaceEventModal";
+import { RaceJoinDialog } from "@/components/races/RaceJoinDialog";
 import {
   TweaksPanel,
   TweakSection,
@@ -288,11 +292,13 @@ function Hero({
   pointer,
   scroll,
   velocity,
+  featuredRace,
 }: {
   onNewRun: () => void;
   pointer: { x: number; y: number };
   scroll: number;
   velocity: number;
+  featuredRace: RaceEvent | null;
 }) {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -300,14 +306,22 @@ function Hero({
     return () => clearInterval(id);
   }, []);
 
-  const target = new Date("2026-05-31T07:00:00");
-  const diff = target.getTime() - now.getTime();
+  const target = featuredRace ? new Date(featuredRace.run_at) : null;
+  const diff = target ? target.getTime() - now.getTime() : 0;
   const countdown = {
     d: Math.max(0, Math.floor(diff / 86400000)),
     h: Math.max(0, Math.floor((diff % 86400000) / 3600000)),
     m: Math.max(0, Math.floor((diff % 3600000) / 60000)),
     s: Math.max(0, Math.floor((diff % 60000) / 1000)),
   };
+
+  const nextRaceLabel = featuredRace
+    ? new Date(featuredRace.run_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase()
+    : "—";
+  const runnersCount = featuredRace ? featuredRace.participants.length : 0;
+  const countdownLabel = featuredRace
+    ? `${featuredRace.name.toUpperCase()} STARTS IN`
+    : "NO RACE FEATURED YET";
 
   return (
     <section className="hero-section" style={{ position: "relative", padding: "96px 56px 64px", minHeight: "100vh", overflow: "hidden" }}>
@@ -333,8 +347,8 @@ function Hero({
               Lace up, show up, run together!
             </div>
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-              <Stat label="NEXT RACE" value="MAY 31" />
-              <Stat label="RUNNERS" value="24" />
+              <Stat label="NEXT RACE" value={nextRaceLabel} />
+              <Stat label="RUNNERS" value={String(runnersCount)} />
               <Stat label="KM THIS WEEK" value="312" />
             </div>
           </div>
@@ -366,12 +380,18 @@ function Hero({
             }}
           >
             <div className="mono" style={{ fontSize: 11, letterSpacing: "0.12em", opacity: 0.7 }}>
-              HALF MARATHON STARTS IN
+              {countdownLabel}
             </div>
-            <div className="display" style={{ fontSize: 44, lineHeight: 1, marginTop: 6 }}>
-              <Digit n={countdown.d} />D <Digit n={countdown.h} />H{" "}
-              <Digit n={countdown.m} />M <Digit n={countdown.s} />S
-            </div>
+            {featuredRace ? (
+              <div className="display" style={{ fontSize: 44, lineHeight: 1, marginTop: 6 }}>
+                <Digit n={countdown.d} />D <Digit n={countdown.h} />H{" "}
+                <Digit n={countdown.m} />M <Digit n={countdown.s} />S
+              </div>
+            ) : (
+              <div className="display" style={{ fontSize: 28, lineHeight: 1, marginTop: 6, opacity: 0.5 }}>
+                ADD ONE IN §03
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -501,13 +521,25 @@ export function Dashboard() {
   const [joinEvent, setJoinEvent] = useState<Event | null>(null);
   const [editEvent, setEditEvent] = useState<Event | null>(null);
 
+  const [raceEvents, setRaceEvents] = useState<RaceEvent[]>([]);
+  const [raceCreateOpen, setRaceCreateOpen] = useState(false);
+  const [joinRaceEvent, setJoinRaceEvent] = useState<RaceEvent | null>(null);
+  const [editRaceEvent, setEditRaceEvent] = useState<RaceEvent | null>(null);
+
   const refresh = useCallback(async () => {
     const res = await fetch("/api/events");
     const data = await res.json();
     setEvents(data);
   }, []);
 
+  const refreshRaces = useCallback(async () => {
+    const res = await fetch("/api/race-events");
+    const data = await res.json();
+    setRaceEvents(data);
+  }, []);
+
   useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => { refreshRaces(); }, [refreshRaces]);
   useRealtimeEvents(refresh);
 
   const upcoming = events
@@ -594,6 +626,57 @@ export function Dashboard() {
     refresh();
   }, [refresh]);
 
+  const addRaceEvent = useCallback(async (form: CreateRaceEventForm) => {
+    await fetch("/api/race-events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    refreshRaces();
+  }, [refreshRaces]);
+
+  const joinRace = useCallback(async (id: string, names: string[]) => {
+    await Promise.all(
+      names.map((name) =>
+        fetch(`/api/race-events/${id}/participants`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        })
+      )
+    );
+    refreshRaces();
+  }, [refreshRaces]);
+
+  const editRace = useCallback(async (id: string, patch: {
+    name: string;
+    race_type: RaceType;
+    run_at: string;
+    location: string;
+    distance_km: number;
+    registration_url?: string;
+    notes?: string;
+  }) => {
+    await fetch(`/api/race-events/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(patch),
+    });
+    refreshRaces();
+  }, [refreshRaces]);
+
+  const deleteRace = useCallback(async (id: string) => {
+    await fetch(`/api/race-events/${id}`, { method: "DELETE" });
+    refreshRaces();
+  }, [refreshRaces]);
+
+  const featureRace = useCallback(async (id: string) => {
+    await fetch(`/api/race-events/${id}/feature`, { method: "POST" });
+    refreshRaces();
+  }, [refreshRaces]);
+
+  const featuredRace = raceEvents.find((r) => r.is_featured) ?? null;
+
   const bigBtn: React.CSSProperties = {
     background: "var(--ink)",
     color: "var(--bg)",
@@ -608,7 +691,7 @@ export function Dashboard() {
     <div style={{ position: "relative" }}>
       {tweaks.grain && <GrainOverlay />}
 
-      <Hero onNewRun={() => setCreateOpen(true)} pointer={pointer} scroll={scroll} velocity={velocity} />
+      <Hero onNewRun={() => setCreateOpen(true)} pointer={pointer} scroll={scroll} velocity={velocity} featuredRace={featuredRace} />
 
       <Section
         id="upcoming"
@@ -646,8 +729,54 @@ export function Dashboard() {
       </Section>
 
       <Section
+        id="races"
+        number="03"
+        kicker="RACE CALENDAR"
+        title="RACE EVENTS"
+        subtitle={`${raceEvents.length} race${raceEvents.length !== 1 ? "s" : ""} on the radar. Feature one to show it on the homepage.`}
+        action={
+          <button onClick={() => setRaceCreateOpen(true)} style={bigBtn}>
+            + ADD RACE
+          </button>
+        }
+      >
+        <div
+          className="cards-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))",
+            gap: 20,
+          }}
+        >
+          {raceEvents.map((ev) => (
+            <RaceEventCard
+              key={ev.id}
+              event={ev}
+              onJoin={setJoinRaceEvent}
+              onEdit={setEditRaceEvent}
+              onDelete={deleteRace}
+              onFeature={featureRace}
+            />
+          ))}
+          {raceEvents.length === 0 && (
+            <div
+              className="mono"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.1em",
+                color: "var(--muted)",
+                padding: "40px 0",
+              }}
+            >
+              NO RACES YET. ADD ONE ABOVE.
+            </div>
+          )}
+        </div>
+      </Section>
+
+      <Section
         id="past"
-        number="02"
+        number="04"
         kicker="IN THE BOOKS"
         title="PAST RUNS"
         subtitle="The archive. Every run, remembered."
@@ -671,6 +800,10 @@ export function Dashboard() {
       <CreateEventModal open={createOpen} onClose={() => setCreateOpen(false)} onCreate={addEvent} />
       <JoinDialog event={joinEvent} onClose={() => setJoinEvent(null)} onJoin={joinRun} />
       <EditEventModal event={editEvent} onClose={() => setEditEvent(null)} onSave={editRun} />
+
+      <CreateRaceEventModal open={raceCreateOpen} onClose={() => setRaceCreateOpen(false)} onCreate={addRaceEvent} />
+      <RaceJoinDialog event={joinRaceEvent} onClose={() => setJoinRaceEvent(null)} onJoin={joinRace} />
+      <EditRaceEventModal event={editRaceEvent} onClose={() => setEditRaceEvent(null)} onSave={editRace} />
 
       <TweaksPanel tweaks={tweaks}>
         <TweakSection title="Accent" />
